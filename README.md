@@ -2,6 +2,8 @@
 [![Build Status](https://dev.azure.com/tkaralis/Spssly/_apis/build/status/Build%2C%20Test?branchName=master)](https://dev.azure.com/tkaralis/Spssly/_build/latest?definitionId=5&branchName=master)
 [![Build Status](https://vsrm.dev.azure.com/tkaralis/_apis/public/Release/badge/9d56ec80-1359-4ebf-be1a-0a1f4887353b/1/1)](https://dev.azure.com/tkaralis/Spssly/_release?_a=deployments&view=mine&definitionId=1)
 
+[![Nuget Package](https://badgen.net/nuget/v/Spssly)](https://www.nuget.org/packages/Spssly/)
+[![Nuget](https://img.shields.io/nuget/dt/Spssly)](https://www.nuget.org/packages/Spssly/)
 
 [![License](https://badgen.net/badge/license/MIT/blue)](LICENSE)
 
