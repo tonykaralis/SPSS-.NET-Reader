@@ -35,9 +35,9 @@ namespace Spssly.FileParser
 
             // SPSS file header
             var headerRecords = new List<IRecord>
-	                            {
-	                                new HeaderRecord(options)
-	                            };
+	        {
+	             new HeaderRecord(options)
+	        };
 
 	        // Process all variable info
 			var variableLongNames = new Dictionary<string, string>();
@@ -123,8 +123,7 @@ namespace Spssly.FileParser
 
 		private void SetValueLabels(List<IRecord> headerRecords, List<ValueLabel> valueLabels)
 		{
-			headerRecords.AddRange(valueLabels
-									.Select(vl => new ValueLabelRecord(vl, _options.HeaderEncoding)));
+			headerRecords.AddRange(valueLabels.Select(vl => new ValueLabelRecord(vl, _options.HeaderEncoding)));
 		}
 
         private void ProcessVariables(IDictionary<string, string> variableLongNames, IDictionary<string, int> veryLongStrings, List<VariableRecord> variableRecords, List<ValueLabel> valueLabels)
