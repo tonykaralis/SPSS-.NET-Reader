@@ -49,8 +49,7 @@ namespace Spssly.SpssDataset
 		/// </returns>
 		public object GetValue(Variable variable)
 		{
-			var value = this[variable];
-			return variable.GetValue(value);
+			return variable.GetValue(this[variable.Index]);
 		}
     }
 }
