@@ -23,7 +23,7 @@ namespace Spssly.DataReader
         /// <summary>
         /// An enumerable of the cases contained in the file
         /// </summary>
-		public IEnumerable<Record> Records { get; private set; }
+		public IEnumerable<IRawRecord> Records { get; private set; }
 
 		internal SpssReader(SavFileParser fileReader)
 		{

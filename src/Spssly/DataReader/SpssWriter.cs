@@ -67,7 +67,7 @@ namespace Spssly.DataReader
         /// be in the same order for both records. If you are adding records, you might have to shift data to make it fit.
         /// If the currentdataset has less variables, the last values left will be lost.
         /// </remarks>
-        public object[] CreateRecord(Record record)
+        public object[] CreateRecord(IRawRecord record)
         {
             var data = (object[])record.Data.Clone();
             Array.Resize(ref data, _variables.Count);
