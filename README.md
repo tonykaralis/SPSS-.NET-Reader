@@ -44,11 +44,12 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Open, FileAcc
     // Create the reader, this will read the file header
     SpssReader spssDataset = new SpssReader(fileStream);
     
-    // Iterate through all the varaibles
+    // Iterate through all the variables
     foreach (var variable in spssDataset.Variables)
     {
         // Display name and label
         Console.WriteLine("{0} - {1}", variable.Name, variable.Label);
+        
         // Display value-labels collection
         foreach (KeyValuePair<double, string> label in variable.ValueLabels)
         {
@@ -61,16 +62,12 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Open, FileAcc
     {
         foreach (var variable in spssDataset.Variables)
         {
-            Console.Write(variable.Name);
-            Console.Write(':');
             // Use the corresponding variable object to get the values.
             Console.Write(record.GetValue(variable));
             // This will get the missing values as null, text with out extra spaces,
             // and date values as DateTime.
             // For original values, use record[variable] or record[int]
-            Console.Write('\t');
         }
-        Console.WriteLine("");
     }
 }
 ```
@@ -136,7 +133,15 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Create, FileA
 }
 ```
 
-If you find any bugs or have issues, please open an issue on GitHub. 
+### Bloated data files:
+Sometimes files are exported from a platform and are extremely bloated. In this case use the `IDataReallocator` which helps to reallocate the data, then write the data to a new file if you plan on using the data more than once. This will consume less memory in the long run.
+See unit tests for examples. Reduction in file size is drastic and performance is increased noticeably on large datasets. 
+
+Example:
+> - Third party platform export -> 230mb
+> - After DataReallocation -> 34mb
+
+The above example file could be further compressed down to circa 2mb, however this can only be achieved by saving the file using the official SPSS software.
 
 ## License
 Spssly is provided as-is under the MIT license. For more information see [LICENSE](LICENSE).
