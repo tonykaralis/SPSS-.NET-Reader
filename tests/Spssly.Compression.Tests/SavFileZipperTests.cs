@@ -14,7 +14,7 @@ namespace Spssly.Compression.Tests
         public SavFileZipperTests()
         {
             _zipper = new SavFileZipper();
-            _pathToResource = @"TestFiles\spsstestdoc.sav";
+            _pathToResource = @"TestFiles/spsstestdoc.sav";
         }
 
         [Test]
