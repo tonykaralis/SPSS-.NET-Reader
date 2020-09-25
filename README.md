@@ -34,6 +34,16 @@ Via .NET CLI
 dotnet add package Spssly
 ```
 
+### Bloated data files:
+Sometimes files are exported from a platform and are extremely bloated. In this case use the `IDataReallocator` which helps to reallocate the data, then write the data to a new file if you plan on using the data more than once. This will consume less memory in the long run.
+See unit tests for examples. Reduction in file size is drastic and performance is increased noticeably on large datasets. 
+
+Example:
+> - Third party platform export -> 230mb
+> - After DataReallocation -> 34mb
+
+The above example file could be further compressed down to circa 2mb, however this can only be achieved by saving the file using the official SPSS software.
+
 ### Reading a data file:
 
 ```C#
@@ -132,16 +142,6 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Create, FileA
     }
 }
 ```
-
-### Bloated data files:
-Sometimes files are exported from a platform and are extremely bloated. In this case use the `IDataReallocator` which helps to reallocate the data, then write the data to a new file if you plan on using the data more than once. This will consume less memory in the long run.
-See unit tests for examples. Reduction in file size is drastic and performance is increased noticeably on large datasets. 
-
-Example:
-> - Third party platform export -> 230mb
-> - After DataReallocation -> 34mb
-
-The above example file could be further compressed down to circa 2mb, however this can only be achieved by saving the file using the official SPSS software.
 
 ## License
 Spssly is provided as-is under the MIT license. For more information see [LICENSE](LICENSE).
