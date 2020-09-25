@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Tony Karalis</Authors>
+    <Company>MMR Research WorldWide</Company>
+    <PackageProjectUrl>https://github.com/tonykaralis/Spssly</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tonykaralis/Spssly</RepositoryUrl>
+    <PackageTags>spss sav library netstandard netcore utility compression</PackageTags>
+    <Description>Includes some data reallocation and zipping utilities to acoompany the core library</Description>
   </PropertyGroup>
 
   <ItemGroup>
