@@ -84,10 +84,10 @@ var variables = new List<Variable>
     {
         Label = "The variable Label",
         ValueLabels = new Dictionary<double, string>
-                {
-                    {1, "Label for 1"},
-                    {2, "Label for 2"},
-                },
+        {
+            {1, "Label for 1"},
+            {2, "Label for 2"},
+        },
         Name = "avariablename_01",
         PrintFormat = new OutputFormat(FormatType.F, 8, 2),
         WriteFormat = new OutputFormat(FormatType.F, 8, 2),
@@ -99,10 +99,10 @@ var variables = new List<Variable>
     {
         Label = "Another variable",
         ValueLabels = new Dictionary<double, string>
-                    {
-                        {1, "this is 1"},
-                        {2, "this is 2"},
-                    },
+        {
+            {1, "this is 1"},
+            {2, "this is 2"},
+        },
         Name = "avariablename_02",
         PrintFormat = new OutputFormat(FormatType.F, 8, 2),
         WriteFormat = new OutputFormat(FormatType.F, 8, 2),
