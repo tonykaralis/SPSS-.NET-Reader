@@ -36,11 +36,21 @@ steps:
 
 - task: DotNetCoreCLI@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Pack
+  displayName: Pack Spssly
   inputs:
     command: 'pack'
     configuration: $(configuration)
     packagesToPack: 'src/Spssly/Spssly.csproj'
+    nobuild: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Pack Spssly.Compression
+  inputs:
+    command: 'pack'
+    configuration: $(configuration)
+    packagesToPack: 'src/Spssly.Compression/Spssly.Compression.csproj'
     nobuild: true
     versioningScheme: 'off'
 
