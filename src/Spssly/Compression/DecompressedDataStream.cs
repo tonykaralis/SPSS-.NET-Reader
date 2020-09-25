@@ -8,23 +8,22 @@ namespace Spssly.Compression
     class DecompressedDataStream: Stream
     {
         private const int InstructionSetByteSize = 8;
-        private const int DataElementByteSize = 8;
         const string SpaceString = "        ";
         
         public Stream CompressedDataStream { get; }
         public double Bias { get; }
         public double SystemMissing { get; }
         
-        private long _position = 0;
-        private byte[][] _elementBuffer = new byte[8][];
+        private readonly long _position = 0;
+        private readonly byte[][] _elementBuffer = new byte[8][];
         private int _elementBufferPosition = 0;
         private int _elementBufferSize;
         private int _inElementPosition = 0; // for those rare cases where we end up in the middle of an element.
 
-        private byte[] _systemMissingBytes;
-        private byte[] _spacesBytes;
+        private readonly byte[] _systemMissingBytes;
+        private readonly byte[] _spacesBytes;
 
-        private BinaryReader _reader;
+        private readonly BinaryReader _reader;
 
         public DecompressedDataStream(Stream compressedDataStream, double bias, double systemMissing)
         {

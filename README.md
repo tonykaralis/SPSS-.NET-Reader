@@ -2,6 +2,8 @@
 [![Build Status](https://dev.azure.com/tkaralis/Spssly/_apis/build/status/Build%2C%20Test?branchName=master)](https://dev.azure.com/tkaralis/Spssly/_build/latest?definitionId=5&branchName=master)
 [![Build Status](https://vsrm.dev.azure.com/tkaralis/_apis/public/Release/badge/9d56ec80-1359-4ebf-be1a-0a1f4887353b/1/1)](https://dev.azure.com/tkaralis/Spssly/_release?_a=deployments&view=mine&definitionId=1)
 
+[![Nuget Package](https://badgen.net/nuget/v/Spssly)](https://www.nuget.org/packages/Spssly/)
+[![Nuget](https://img.shields.io/nuget/dt/Spssly)](https://www.nuget.org/packages/Spssly/)
 
 [![License](https://badgen.net/badge/license/MIT/blue)](LICENSE)
 
@@ -32,6 +34,16 @@ Via .NET CLI
 dotnet add package Spssly
 ```
 
+### Bloated data files:
+Sometimes files are exported from a platform and are extremely bloated. In this case use the `IDataReallocator` which helps to reallocate the data, then write the data to a new file if you plan on using the data more than once. This will consume less memory in the long run.
+See unit tests for examples. Reduction in file size is drastic and performance is increased noticeably on large datasets. 
+
+Example:
+> - Third party platform export -> 230mb
+> - After DataReallocation -> 34mb
+
+The above example file could be further compressed down to circa 2mb, however this can only be achieved by saving the file using the official SPSS software.
+
 ### Reading a data file:
 
 ```C#
@@ -42,11 +54,12 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Open, FileAcc
     // Create the reader, this will read the file header
     SpssReader spssDataset = new SpssReader(fileStream);
     
-    // Iterate through all the varaibles
+    // Iterate through all the variables
     foreach (var variable in spssDataset.Variables)
     {
         // Display name and label
         Console.WriteLine("{0} - {1}", variable.Name, variable.Label);
+        
         // Display value-labels collection
         foreach (KeyValuePair<double, string> label in variable.ValueLabels)
         {
@@ -59,16 +72,12 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Open, FileAcc
     {
         foreach (var variable in spssDataset.Variables)
         {
-            Console.Write(variable.Name);
-            Console.Write(':');
             // Use the corresponding variable object to get the values.
             Console.Write(record.GetValue(variable));
             // This will get the missing values as null, text with out extra spaces,
             // and date values as DateTime.
             // For original values, use record[variable] or record[int]
-            Console.Write('\t');
         }
-        Console.WriteLine("");
     }
 }
 ```
@@ -82,10 +91,10 @@ var variables = new List<Variable>
     {
         Label = "The variable Label",
         ValueLabels = new Dictionary<double, string>
-                {
-                    {1, "Label for 1"},
-                    {2, "Label for 2"},
-                },
+        {
+            {1, "Label for 1"},
+            {2, "Label for 2"},
+        },
         Name = "avariablename_01",
         PrintFormat = new OutputFormat(FormatType.F, 8, 2),
         WriteFormat = new OutputFormat(FormatType.F, 8, 2),
@@ -97,10 +106,10 @@ var variables = new List<Variable>
     {
         Label = "Another variable",
         ValueLabels = new Dictionary<double, string>
-                    {
-                        {1, "this is 1"},
-                        {2, "this is 2"},
-                    },
+        {
+            {1, "this is 1"},
+            {2, "this is 2"},
+        },
         Name = "avariablename_02",
         PrintFormat = new OutputFormat(FormatType.F, 8, 2),
         WriteFormat = new OutputFormat(FormatType.F, 8, 2),
@@ -133,8 +142,6 @@ using (FileStream fileStream = new FileStream("data.sav", FileMode.Create, FileA
     }
 }
 ```
-
-If you find any bugs or have issues, please open an issue on GitHub. 
 
 ## License
 Spssly is provided as-is under the MIT license. For more information see [LICENSE](LICENSE).

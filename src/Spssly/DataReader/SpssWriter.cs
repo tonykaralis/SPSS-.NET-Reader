@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Spssly.FileParser;
+using Spssly.SpssDataset;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Spssly.FileParser;
-using Spssly.SpssDataset;
 
 namespace Spssly.DataReader
 {
@@ -13,11 +13,7 @@ namespace Spssly.DataReader
 	public class SpssWriter : IDisposable
 	{
 		private readonly SavFileWriter _output;
-
-		private readonly SpssOptions _options = new SpssOptions();
-        
-        // TODO use read only collection and make it public
-		private readonly ICollection<Variable> _variables;
+        //private readonly IList<Variable> _variables;
 
         /// <summary>
         /// Creates a spss writer
@@ -25,26 +21,26 @@ namespace Spssly.DataReader
         /// <param name="output">The binary stream to write to</param>
         /// <param name="variables">The variable collection to use</param>
         /// <param name="options"></param>
-		public SpssWriter(Stream output, ICollection<Variable> variables, SpssOptions options = null)
+		public SpssWriter(Stream output, IList<Variable> variables, SpssOptions options = null)
 			: this(new SavFileWriter(output), variables, options) { }
 
-		private SpssWriter(SavFileWriter output, ICollection<Variable> variables, SpssOptions options = null)
+		private SpssWriter(SavFileWriter output, IList<Variable> variables, SpssOptions options = null)
 		{
 			_output = output;
-			_variables = variables.ToList();
-            _options = options ?? _options;
+            Variables = variables.ToList();
+            Options = options ?? Options;
 			WriteFileHeader();
 		}
 
         /// <summary>
         /// The file options used.
         /// </summary>
-		public SpssOptions Options => _options;
+		public SpssOptions Options { get; } = new SpssOptions();
 
         /// <summary>
         /// The variable collection. Once the writting has started, it should not be modified.
         /// </summary>
-		public ICollection<Variable> Variables => _variables;
+		public IReadOnlyCollection<Variable> Variables { get; private set; }
 
         /// <summary>
         /// Creates a record array with the variable count as lenght
@@ -52,7 +48,7 @@ namespace Spssly.DataReader
         /// <returns></returns>
 		public object[] CreateRecord()
 		{
-			return new object[_variables.Count];
+			return new object[Variables.Count];
 		}
 
         /// <summary>
@@ -67,10 +63,10 @@ namespace Spssly.DataReader
         /// be in the same order for both records. If you are adding records, you might have to shift data to make it fit.
         /// If the currentdataset has less variables, the last values left will be lost.
         /// </remarks>
-        public object[] CreateRecord(Record record)
+        public object[] CreateRecord(IRawRecord record)
         {
             var data = (object[])record.Data.Clone();
-            Array.Resize(ref data, _variables.Count);
+            Array.Resize(ref data, Variables.Count);
             return data;
         }
 
@@ -85,7 +81,7 @@ namespace Spssly.DataReader
 
 		private void WriteFileHeader()
 		{
-			_output.WriteFileHeader(_options, _variables);
+			_output.WriteFileHeader(Options, Variables);
 		}
 
         /// <summary>

@@ -19,17 +19,17 @@ namespace Spssly.DataReader
         /// <summary>
         /// A collection of variables read from teh file 
         /// </summary>
-		public ICollection<Variable> Variables { get; private set; }
+		public IList<Variable> Variables { get; private set; }
         /// <summary>
         /// An enumerable of the cases contained in the file
         /// </summary>
-		public IEnumerable<Record> Records { get; private set; }
+		public IEnumerable<IRawRecord> Records { get; private set; }
 
 		internal SpssReader(SavFileParser fileReader)
 		{
 			_fileReader = fileReader;
 			Variables = fileReader.Variables.ToList();
-			Records = fileReader.ParsedDataRecords.Select(d => new Record(d.ToArray()));
+            Records = fileReader.ParsedDataRecords.Select(d => new Record(d.ToArray()));
         }
         
         /// <summary>
