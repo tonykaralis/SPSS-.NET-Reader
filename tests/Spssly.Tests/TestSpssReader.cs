@@ -130,14 +130,13 @@ namespace Spssly.Tests
             var variables = spssDataset.Variables;
             foreach (var variable in variables)
             {
-                Debug.WriteLine("{0} - {1}", variable.Name, variable.Label);
+                Console.WriteLine("{0} - {1}", variable.Name, variable.Label);
                 foreach (KeyValuePair<double, string> label in variable.ValueLabels)
                 {
-                    Debug.WriteLine(" {0} - {1}", label.Key, label.Value);
+                    Console.WriteLine(" {0} - {1}", label.Key, label.Value);
                 }
 
-                Action<int, Variable> checkVariable;
-                if (variableValidators != null && variableValidators.TryGetValue(varCount, out checkVariable))
+                if (variableValidators != null && variableValidators.TryGetValue(varCount, out Action<int, Variable> checkVariable))
                 {
                     checkVariable(varCount, variable);
                 }
@@ -150,11 +149,11 @@ namespace Spssly.Tests
                 var varIndex = 0;
                 foreach (var variable in variables)
                 {
-                    Debug.Write(variable.Name);
-                    Debug.Write(':');
+                    Console.Write(variable.Name);
+                    Console.Write(':');
                     var value = record.GetValue(variable);
-                    Debug.Write(value);
-                    Debug.Write('\t');
+                    Console.Write(value);
+                    Console.Write('\t');
 
                     Action<int, int, Variable, object> checkValue;
                     if (valueValidators != null && valueValidators.TryGetValue(varIndex, out checkValue))
@@ -164,7 +163,7 @@ namespace Spssly.Tests
 
                     varIndex++;
                 }
-                Debug.WriteLine("");
+                Console.WriteLine("");
 
                 rowCount++;
             }

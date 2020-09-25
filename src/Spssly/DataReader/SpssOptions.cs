@@ -42,12 +42,11 @@ namespace Spssly.DataReader
         public Encoding DataEncoding { get; set; }
 		
         /// <summary>
-        /// Creates a Spss options instance with defaults.
+        /// Creates an Spss options instance with defaults.
         /// Compressed, bias=100 &amp; encodings=UTF8
         /// </summary>
 		public SpssOptions()
-		{
-			// Default values
+		{			
 			Compressed = true;
 			Bias = 100;
 			Cases = -1;
